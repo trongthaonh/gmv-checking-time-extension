@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Chatwork:</strong>
+  <%= @tracking.chatwork_id %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @tracking.name %>
+</p>
+
+<p>
+  <strong>Tracking type:</strong>
+  <%= @tracking.tracking_type %>
+</p>
+
+<%= link_to 'Edit', edit_tracking_path(@tracking) %> |
+<%= link_to 'Back', trackings_path %>

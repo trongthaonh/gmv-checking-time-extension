@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  chatwork_id: 1
+  name: MyString
+  tracking_type: 1
+
+two:
+  chatwork_id: 1
+  name: MyString
+  tracking_type: 1
