@@ -38,6 +38,13 @@ chrome.webRequest["onBeforeRequest"].addListener(function(info) {
     }
   }
 
+  // Update userId
+  chrome.storage.sync.get("cw_userid", function (obj) {
+    if(!obj.isEmpty()){
+      userId = obj.cw_userid
+    }
+  });
+
   // Get settings
   if(settings.isEmpty()){
     chrome.storage.sync.get("settings", function (obj) {
@@ -51,7 +58,7 @@ chrome.webRequest["onBeforeRequest"].addListener(function(info) {
     if(!obj.isEmpty()){
 
       // Not yet checkin
-      if(!obj.status.isCheckedIn && userId && info.url.indexOf("cmd=send_chat&myid=" + userId) > -1){
+      if(obj.status.isCheckedIn == 0 && userId && info.url.indexOf("cmd=send_chat&myid=" + userId) > -1){
 
         formData = info.requestBody.formData.pdata[0];
 
@@ -80,7 +87,7 @@ chrome.webRequest["onBeforeRequest"].addListener(function(info) {
       }
 
       // Not yet checkout
-      if(!obj.status.isCheckedOut && userId && info.url.indexOf("cmd=get_s3_post_object&myid=" + userId) > -1){
+      if(obj.status.isCheckedIn == 1 && obj.status.isCheckedOut == 0 && userId && info.url.indexOf("cmd=get_s3_post_object&myid=" + userId) > -1){
 
         formData = info.requestBody.formData.pdata[0];
 

@@ -6,11 +6,26 @@ $( document ).ready(function() {
       $("#checkout_room_id").val(obj.settings.checkout_room_id);
       $("#loa_room_id").val(obj.settings.loa_room_id);
 
-      //if(obj.settings.full_name && obj.settings.checkin_room_id && obj.settings.checkout_room_id){
-      //  $settingForm = $('.setting-form');
-      //  $settingForm.data('old-state', $settingForm.html());
-      //  $settingForm.html("<p class='extension-title'>You have not yet checked in today!</p><label><span>&nbsp;</span><input id='btn_edit_settings' type='submit' value='Edit Settings' /> </label>");
-      //}
+      if(obj.settings.full_name && obj.settings.checkin_room_id && obj.settings.checkout_room_id){
+        $settingForm = $('.setting-form');
+        $settingForm.data('old-state', $settingForm.html());
+
+        // Check user status
+        chrome.storage.sync.get("status", function (obj) {
+          myStatus = obj.status;
+
+          if(!myStatus || myStatus.isCheckedIn == 0){
+            $settingForm.html("<p class='extension-title'>You have not yet checked in today!</p><label>");
+          }
+          else if(myStatus.isCheckedIn == 1 && myStatus.isCheckedOut == 0){
+            $settingForm.html("<p class='extension-title'>Already checked in! Have a good working day! :)</p><label>");
+          } else if(myStatus.isCheckedIn == 1 && myStatus.isCheckedOut == 1){
+            $settingForm.html("<p class='extension-title'>Thank you for your hard working Today! Enjoy!!! :)</p><label>");
+          }
+        });
+
+
+      }
     }
   });
 
@@ -24,23 +39,26 @@ $( document ).ready(function() {
       loa_room_id: $("#loa_room_id").val()
     };
 
-    chrome.storage.sync.set({'settings': settings}, function(_obj) {
-      console.log(_obj);
+    chrome.storage.sync.set({'settings': settings}, function() {
       console.log("Settings updated");
 
-      //if(_obj.settings.full_name && _obj.settings.checkin_room_id && _obj.settings.checkout_room_id){
-      //  $settingForm = $('.setting-form');
-      //  $settingForm.data('old-state', $settingForm.html());
-      //  $settingForm.html("<p class='extension-title'>You have not yet checked in today!</p><label><span>&nbsp;</span><input id='btn_edit_settings' type='submit' value='Edit Settings' /> </label>");
-      //}
+      if(settings.full_name && settings.checkin_room_id && settings.checkout_room_id){
+        $settingForm = $('.setting-form');
+        $settingForm.data('old-state', $settingForm.html());
+        $settingForm.html("<p class='extension-title'>You have not yet checked in today!</p><label>");
+
+        chrome.storage.sync.set({'status': { isCheckedIn: 0, isCheckedOut: 0 }}, function() {
+          console.log("Status has been init!");
+        });
+      }
     });
   });
 
 
-  $(document).on("click","#btn_edit_setting", function(){
-    $settingForm = $('.setting-form');
-    $settingForm.html($settingForm.data('old-state'));
-  });
+  //$("#btn_edit_setting").click(function(){
+  //  $settingForm = $('.setting-form');
+  //  $settingForm.html($settingForm.data('old-state'));
+  //});
 });
 
 Object.prototype.isEmpty = function() {
