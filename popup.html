@@ -1,0 +1,38 @@
+
+<!doctype html>
+<!--
+ This page is shown when the extension button is clicked, because the
+ "browser_action" field in manifest.json contains the "default_popup" key with
+ value "popup.html".
+ -->
+<html>
+<head>
+  <title>Gumiviet - Checking Time</title>
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+  <form class="setting-form">
+    <p class="extension-title">Gumi Viet - Checking Time</p>
+
+    <label for="full_name">
+      <span>Enter Your Name</span><input type="text" id="full_name" name="full_name" required="true" />
+    </label>
+    <label for="checkin_room">
+      <span>Checkin Room ID</span><input type="text" id="checkin_room_id" name="checkin_room_id" required="true" />
+    </label>
+    <label for="checkout_room">
+      <span>Checkout Room ID</span><input type="text" id="checkout_room_id" name="checkout_room_id" required="true" />
+    </label>
+    <label for="field3">
+      <span>LOA Room ID</span><input type="text" id="loa_room_id" name="loa_room_id"/>
+    </label>
+    <label>
+      <span>&nbsp;</span><input id="btn_submit" type="submit" value="Save Settings" />
+    </label>
+  </form>
+
+  <script src="js/jquery-1.9.0.js"></script>
+  <script src="js/popup.js"></script>
+</body>
+</html>
+
